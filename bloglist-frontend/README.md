@@ -1,0 +1,1 @@
+This app is created as an exercise for the University of Helsinki course Full Stack Open.
