@@ -64,13 +64,6 @@ const listWithOneBlog = [
   },
 ]
 
-test("Dummy returns one", () => {
-  const blogs = []
-
-  const result = listHelper.dummy(blogs)
-  assert.strictEqual(result, 1)
-})
-
 describe("Total likes", () => {
   test("When list has only one blog, returns the likes of that blog", () => {
     assert.strictEqual(listHelper.totalLikes(listWithOneBlog), 5)
