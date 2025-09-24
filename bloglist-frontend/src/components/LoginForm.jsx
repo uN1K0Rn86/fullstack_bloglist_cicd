@@ -1,65 +1,53 @@
-import { useState } from "react"
-import { useDispatch } from "react-redux"
-import { loginUser } from "../reducers/userReducer"
-import { useNavigate } from "react-router-dom"
+import PropTypes from 'prop-types'
 
-const LoginForm = () => {
-  const [username, setUsername] = useState("")
-  const [password, setPassword] = useState("")
+const LoginForm = ({ handleLogin, username, setUsername, password, setPassword }) => {
+    const formstyle = {
+        display: 'grid',
+        gridTemplateColumns: '100px 150px',
+        gap: '5px'
+    }
 
-  const navigate = useNavigate()
-  const dispatch = useDispatch()
-
-  const handleLogin = async event => {
-    event.preventDefault()
-    dispatch(loginUser(username, password))
-    setUsername("")
-    setPassword("")
-  }
-
-  const formstyle = {
-    display: "grid",
-    gridTemplateColumns: "100px 150px",
-    gap: "5px",
-  }
-
-  return (
-    <div>
-      <h2>Login</h2>
-      <form onSubmit={handleLogin} style={formstyle}>
+    return (
         <div>
-          <label htmlFor='Username'>Username: </label>
+            <h2>Login</h2>
+            <form onSubmit={handleLogin} style={formstyle}>
+                <div>
+                    <label htmlFor="Username">Username: </label>
+                </div>
+                <div>
+                    <input
+                        data-testid="username"
+                        type="text"
+                        value={username}
+                        id="Username"
+                        name="Username"
+                        onChange={({ target }) => setUsername(target.value)}
+                    />
+                </div>
+                <div>
+                    <label htmlFor="Password">Password: </label>
+                </div>
+                <div>
+                    <input
+                        data-testid="password"
+                        type="password"
+                        value={password}
+                        id="Password"
+                        name="Password"
+                        onChange={({ target }) => setPassword(target.value)}
+                    />
+                </div>
+                <button type="submit">Login</button>
+            </form>
         </div>
-        <div>
-          <input
-            data-testid='username'
-            type='text'
-            value={username}
-            id='Username'
-            name='Username'
-            onChange={({ target }) => setUsername(target.value)}
-          />
-        </div>
-        <div>
-          <label htmlFor='Password'>Password: </label>
-        </div>
-        <div>
-          <input
-            data-testid='password'
-            type='password'
-            value={password}
-            id='Password'
-            name='Password'
-            onChange={({ target }) => setPassword(target.value)}
-          />
-        </div>
-        <button type='submit'>Login</button>
-        <button type='button' onClick={() => navigate("/register")}>
-          Register
-        </button>
-      </form>
-    </div>
-  )
+    )}
+
+LoginForm.propTypes = {
+    handleLogin: PropTypes.func.isRequired,
+    username: PropTypes.string.isRequired,
+    setUsername: PropTypes.func.isRequired,
+    password: PropTypes.string.isRequired,
+    setPassword: PropTypes.func.isRequired
 }
 
 export default LoginForm

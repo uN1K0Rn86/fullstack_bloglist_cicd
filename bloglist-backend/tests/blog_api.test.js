@@ -25,7 +25,7 @@ describe("Blogs: When there are some initial blogs saved", () => {
       passwordHash,
     })
 
-    const savedUser = await user.save()
+    await user.save()
 
     const loginUser = {
       username: "Dud3r",
@@ -80,9 +80,7 @@ describe("Blogs: When there are some initial blogs saved", () => {
       const titles = response.body.map((r) => r.title)
 
       assert.strictEqual(response.body.length, helper.initialBlogs.length + 1)
-      assert(
-        titles.includes("How to Keep Your People from Falling into Despair")
-      )
+      assert(titles.includes("How to Keep Your People from Falling into Despair"))
     })
 
     test("If likes are not specified, default to 0", async () => {
@@ -112,11 +110,7 @@ describe("Blogs: When there are some initial blogs saved", () => {
         likes: 2,
       }
 
-      await api
-        .post("/api/blogs")
-        .set("Authorization", `Bearer ${token}`)
-        .send(newBlog)
-        .expect(400)
+      await api.post("/api/blogs").set("Authorization", `Bearer ${token}`).send(newBlog).expect(400)
     })
 
     test("If blog has no url, respond with 400 Bad Request", async () => {
@@ -126,11 +120,7 @@ describe("Blogs: When there are some initial blogs saved", () => {
         likes: 1000000,
       }
 
-      await api
-        .post("/api/blogs")
-        .set("Authorization", `Bearer ${token}`)
-        .send(newBlog)
-        .expect(400)
+      await api.post("/api/blogs").set("Authorization", `Bearer ${token}`).send(newBlog).expect(400)
     })
 
     test("A blog cannot be added without a valid token", async () => {
@@ -159,7 +149,7 @@ describe("Blogs: When there are some initial blogs saved", () => {
         likes: 49273057,
       }
 
-      const addedBlog = await api
+      await api
         .post("/api/blogs")
         .set("Authorization", `Bearer ${token}`)
         .send(newBlog)
@@ -216,7 +206,7 @@ describe("Users: When there is one initial user in the db", () => {
   })
 
   test("Adding new user with an unused username succeeds", async () => {
-    initialUsers = await helper.usersInDb()
+    const initialUsers = await helper.usersInDb()
 
     const newUser = {
       username: "Chuchi",
@@ -301,9 +291,7 @@ describe("Users: When there is one initial user in the db", () => {
     const usersAfter = await helper.usersInDb()
     assert.strictEqual(usersAfter.length, initialUsers.length)
 
-    assert(
-      result.body.error.includes("Password must be at least 3 characters long.")
-    )
+    assert(result.body.error.includes("Password must be at least 3 characters long."))
   })
 })
 
