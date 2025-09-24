@@ -21,6 +21,7 @@ mongoose
   })
   .catch((error) => {
     logger.error("Error connecting to MongoDB", error)
+    console.error("error", error)
   })
 
 app.use(cors())
