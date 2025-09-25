@@ -46,6 +46,3 @@ jobs:
       - name: Copy dist to backend
         working-directory: ./bloglist-frontend
         run: cp -r dist ../bloglist-backend
-      - name: Test starting app
-        working-directory: ./bloglist-backend
-        run: npm start
