@@ -13,7 +13,6 @@ describe("Blogs: When there are some initial blogs saved", () => {
   let token
 
   beforeEach(async () => {
-    console.log("Using DB:", process.env.MONGODB_URI)
     await Blog.deleteMany({})
     await Blog.insertMany(helper.initialBlogs)
 

@@ -9,7 +9,7 @@ on:
     types: [opened, synchronize]
 
 jobs:
-  prepare_backend:
+  verify_backend:
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -28,4 +28,21 @@ jobs:
           TEST_MONGODB_URI: ${{ secrets.TEST_MONGODB_URI }}
           SECRET: ${{ secrets.SECRET }}
           NODE_ENV: "test"
+        run: npm run test
+
+  verify_frontend:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./bloglist-frontend
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Install dependencies
+        run: npm install
+      - name: Lint
+        run: npm run lint
+      - name: Tests
         run: npm run test
