@@ -9,52 +9,37 @@ on:
     types: [opened, synchronize]
 
 jobs:
-  verify_backend:
+  deployment_pipeline:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./bloglist-backend
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: "20"
       - name: Install dependencies
+        working-directory: ./bloglist-backend
         run: npm install
       - name: Lint
+        working-directory: ./bloglist-backend
         run: npm run lint
       - name: Tests
+        working-directory: ./bloglist-backend
         env:
           TEST_MONGODB_URI: ${{ secrets.TEST_MONGODB_URI }}
           SECRET: ${{ secrets.SECRET }}
           NODE_ENV: "test"
         run: npm run test
 
-  verify_frontend:
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./bloglist-frontend
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: "20"
       - name: Install dependencies
+        working-directory: ./bloglist-frontend
         run: npm install
       - name: Lint
+        working-directory: ./bloglist-frontend
         run: npm run lint
       - name: Tests
+        working-directory: ./bloglist-frontend
         run: npm run test
 
-  build:
-    needs: [verify_frontend, verify_backend]
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: "20"
       - name: Build app
         working-directory: ./bloglist-frontend
         run: npm run build
