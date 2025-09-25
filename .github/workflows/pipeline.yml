@@ -46,3 +46,21 @@ jobs:
         run: npm run lint
       - name: Tests
         run: npm run test
+
+  build:
+    needs: [verify_frontend, verify_backend]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Build app
+        working-directory: ./bloglist-frontend
+        run: npm run build
+      - name: Copy dist to backend
+        working-directory: ./bloglist-frontend
+        run: cp -r dist ../bloglist-backend
+      - name: Test starting app
+        working-directory: ./bloglist-backend
+        run: npm start
