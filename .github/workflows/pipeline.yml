@@ -19,13 +19,13 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: "20"
-      - name: Install dependencies
+      - name: Install backend dependencies
         working-directory: ./bloglist-backend
         run: npm install
-      - name: Lint
+      - name: Backend lint
         working-directory: ./bloglist-backend
         run: npm run lint
-      - name: Tests
+      - name: Backend tests
         working-directory: ./bloglist-backend
         env:
           TEST_MONGODB_URI: ${{ secrets.TEST_MONGODB_URI }}
@@ -33,13 +33,13 @@ jobs:
           NODE_ENV: "test"
         run: npm run test
 
-      - name: Install dependencies
+      - name: Install frontend dependencies
         working-directory: ./bloglist-frontend
         run: npm install
-      - name: Lint
+      - name: Frontend lint
         working-directory: ./bloglist-frontend
         run: npm run lint
-      - name: Tests
+      - name: Frontend tests
         working-directory: ./bloglist-frontend
         run: npm run test
 
@@ -73,3 +73,17 @@ jobs:
           webhook-url: ${{ secrets.DISCORD_WEBHOOK }}
           msg-content: "Failed to deploy blogapp, commit: ${{ github.sha }}"
           ignore-hidden: "false"
+
+  tag_release:
+    if: ${{ github.event_name == 'push' && contains(join(github.event.commits.*.message, ' '), '#deploy') }}
+    needs: [deployment_pipeline]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: "0"
+      - name: Bump version and push tag
+        uses: anothrNick/github-tag-action@4ed44965e0db8dab2b466a16da04aec3cc312fd8
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          DEFAULT_BUMP: patch
