@@ -1,0 +1,42 @@
+# flyctl launch added from bloglist-backend/.gitignore
+bloglist-backend/**/.env
+bloglist-backend/node_modules
+
+# flyctl launch added from bloglist-frontend/.gitignore
+# Logs
+bloglist-frontend/**/logs
+bloglist-frontend/**/*.log
+bloglist-frontend/**/npm-debug.log*
+bloglist-frontend/**/yarn-debug.log*
+bloglist-frontend/**/yarn-error.log*
+bloglist-frontend/**/pnpm-debug.log*
+bloglist-frontend/**/lerna-debug.log*
+
+bloglist-frontend/**/node_modules
+bloglist-frontend/**/dist
+bloglist-frontend/**/dist-ssr
+bloglist-frontend/**/*.local
+
+# Editor directories and files
+bloglist-frontend/**/.vscode/*
+!bloglist-frontend/**/.vscode/extensions.json
+bloglist-frontend/**/.idea
+bloglist-frontend/**/.DS_Store
+bloglist-frontend/**/*.suo
+bloglist-frontend/**/*.ntvs*
+bloglist-frontend/**/*.njsproj
+bloglist-frontend/**/*.sln
+bloglist-frontend/**/*.sw?
+fly.toml
+
+# Ignore all .git folders anywhere
+**/.git
+**/.git/**
+
+# Ignore all .github folders anywhere
+**/.github
+**/.github/**
+
+# Ignore all .gitignore and env files anywhere
+**/.gitignore
+**/.env
