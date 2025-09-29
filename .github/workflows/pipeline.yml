@@ -58,3 +58,18 @@ jobs:
         run: flyctl deploy --remote-only
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+
+      - name: Notify Discord on successful deployment
+        uses: Retr0-01/better-discord-notification@main
+        if: ${{ github.event_name == 'push' && env.CONDITION == 'true' && success() }}
+        with:
+          webhook-url: ${{ secrets.DISCORD_WEBHOOK }}
+          msg-content: "Successfully deployed blogapp to https://fullstack-bloglist-cicd.fly.dev/"
+          ignore-hidden: "false"
+      - name: Notify Discord on failure to deploy
+        uses: Retr0-01/better-discord-notification@main
+        if: ${{ github.event_name == 'push' && env.CONDITION == 'true' && failure() }}
+        with:
+          webhook-url: ${{ secrets.DISCORD_WEBHOOK }}
+          msg-content: "Failed to deploy blogapp, commit: ${{ github.sha }}"
+          ignore-hidden: "false"
